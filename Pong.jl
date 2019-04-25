@@ -1,24 +1,14 @@
-using Pkg
-function installifnotinstalled(name)
-	installed_packages = keys(Pkg.installed())
-	if name ∉ installed_packages
-		Pkg.add(name)
-	end
-end
-installifnotinstalled("EntityComponentSystem")
-installifnotinstalled("Gtk")
+include("Utils.jl")
+install("EntityComponentSystem")
+install("Gtk")
 
 using EntityComponentSystem, Gtk, Graphics
 
 world = World()
-function includedir(dir)
-	for (root, dirs, files) in walkdir(dir)
-		for f in files
-			include(root*"/"*f)
-		end
-	end
-end
+
 includedir("components")
+includedir("systems")
+includedir("entities")
 
 canvas = GtkCanvas()
 win = GtkWindow(canvas, "Pong")
